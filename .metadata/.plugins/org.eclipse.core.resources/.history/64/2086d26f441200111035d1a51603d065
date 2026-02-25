@@ -1,5 +1,0 @@
-package com.enterprises.product.kafka;
-
-public class ProductProducer {
-
-}

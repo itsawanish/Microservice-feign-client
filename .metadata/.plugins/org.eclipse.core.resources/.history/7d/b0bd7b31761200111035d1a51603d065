@@ -1,5 +1,0 @@
-package com.enterprises.order.exception;
-
-public class ResourceNotFoundException {
-
-}

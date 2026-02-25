@@ -1,26 +1,29 @@
 # Maven
 target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
 
-# IntelliJ
-.idea/
-*.iml
+# Gradle
+.gradle/
+build/
 
 # Eclipse
+.metadata/
+.settings/
 .project
 .classpath
-.settings/
-
-# VS Code
-.vscode/
 
 # Logs
 *.log
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
+
+# IDE
+.idea/
+
+# Spring Boot
+*.jar
+*.war
+
+# Node (if any frontend)
+node_modules/
