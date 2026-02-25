@@ -1,0 +1,29 @@
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Eclipse
+.metadata/
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+
+# Spring Boot
+*.jar
+*.war
+
+# Node (if any frontend)
+node_modules/

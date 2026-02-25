@@ -1,0 +1,5 @@
+package com.enterprises.order.dto;
+
+public class ProductDto {
+
+}

@@ -1,0 +1,5 @@
+package com.enterprises.product.exception;
+
+public class GlobalExceptionHandler {
+
+}

@@ -1,0 +1,5 @@
+package com.enterprises.product.config;
+
+public class KafkaProducerConfig {
+
+}

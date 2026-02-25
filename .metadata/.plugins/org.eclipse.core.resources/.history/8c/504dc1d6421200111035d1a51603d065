@@ -1,0 +1,5 @@
+package com.enterprises.product.mapper;
+
+public class ProductMapper {
+
+}

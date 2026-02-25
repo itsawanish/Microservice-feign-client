@@ -1,0 +1,51 @@
+package com.enterprises.product.service.impl;
+
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.enterprises.product.dto.ProductDto;
+import com.enterprises.product.entity.Product;
+import com.enterprises.product.exception.ResourceNotFoundException;
+import com.enterprises.product.kafka.ProductProducer;
+import com.enterprises.product.mapper.ProductMapper;
+import com.enterprises.product.repository.ProductRepository;
+import com.enterprises.product.service.ProductService;
+
+
+@Service
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+    private final ProductRepository repository;
+    private final ProductProducer producer;
+
+    public ProductServiceImpl(ProductRepository repository,
+                              ProductProducer producer) {
+        this.repository = repository;
+        this.producer = producer;
+    }
+
+    @Override
+    public ProductDto createProduct(ProductDto dto) {
+
+        Product product = ProductMapper.toEntity(dto);
+
+        Product savedProduct = repository.save(product);
+
+        ProductDto response = ProductMapper.toDto(savedProduct);
+
+       // producer.sendProductEvent(response);
+
+        return response;
+    }
+
+    @Override
+    public ProductDto getProductById(Long id) {
+
+        Product product = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Product not found with id " + id));
+
+        return ProductMapper.toDto(product);
+    }
+}

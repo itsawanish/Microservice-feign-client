@@ -1,0 +1,9 @@
+package com.enterprises.product.exception;
+
+public class ResourceNotFoundException {
+	
+	public ResourceNotFoundException(String message) {
+        super(message);
+    }
+
+}

@@ -1,0 +1,5 @@
+package com.enterprises.order.kafka;
+
+public class ProductConsumer {
+
+}
