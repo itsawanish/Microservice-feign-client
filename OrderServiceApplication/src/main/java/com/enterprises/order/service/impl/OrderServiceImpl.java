@@ -1,6 +1,7 @@
 package com.enterprises.order.service.impl;
 
-import org.apache.kafka.common.errors.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,45 +17,57 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class OrderServiceImpl implements OrderService{
-	@Autowired
-	OrderRepository repository;
-	@Autowired
-	ProductFeignClient feignClient;
-	
-	
-	 @Override
-	    public OrderDto createOrder(OrderDto dto) {
+public class OrderServiceImpl implements OrderService {
 
-	        ProductDto product =
-	                feignClient.getProduct(dto.getProductId());
+    private static final Logger log =
+            LoggerFactory.getLogger(OrderServiceImpl.class);
 
-	        if (product == null) {
-	            throw new ResourceNotFoundException("Product not found");
-	        }
+    @Autowired
+    OrderRepository repository;
 
-	        Double total =
-	                product.getPrice() * dto.getQuantity();
+    @Autowired
+    ProductFeignClient feignClient;
 
-	        dto.setTotalPrice(total);
+    @Override
+    public OrderDto createOrder(OrderDto dto) {
 
-	        Order order = OrderMapper.toEntity(dto);
+        log.info("Creating order for productId: {}", dto.getProductId());
 
-	        Order saved = repository.save(order);
+        ProductDto product =
+                feignClient.getProduct(dto.getProductId());
 
-	        return OrderMapper.toDto(saved);
-	    }
+        if (product == null) {
+            log.error("Product not found for id: {}", dto.getProductId());
+            throw new RuntimeException("Product not found");
+        }
 
-	    @Override
-	    public OrderDto getOrderById(Long id) {
+        Double total =
+                product.getPrice() * dto.getQuantity();
 
-	        Order order = repository.findById(id)
-	                .orElseThrow(() ->
-	                        new ResourceNotFoundException("Order not found"));
+        log.info("Calculated total price: {}", total);
 
-	        return OrderMapper.toDto(order);
-	    }
-	
-	
+        dto.setTotalPrice(total);
 
+        Order order = OrderMapper.toEntity(dto);
+
+        Order saved = repository.save(order);
+
+        log.info("Order saved successfully with id: {}", saved.getId());
+
+        return OrderMapper.toDto(saved);
+    }
+
+    @Override
+    public OrderDto getOrderById(Long id) {
+
+        log.info("Fetching order with id: {}", id);
+
+        Order order = repository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Order not found with id: {}", id);
+                    return new RuntimeException("Order not found");
+                });
+
+        return OrderMapper.toDto(order);
+    }
 }

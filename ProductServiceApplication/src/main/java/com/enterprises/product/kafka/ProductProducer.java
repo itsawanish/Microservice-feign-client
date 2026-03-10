@@ -15,7 +15,7 @@ public class ProductProducer {
 
     public void sendProductEvent(ProductDto dto) {
 
-        kafkaTemplate.send("product-topic", dto);
+        kafkaTemplate.send("product-topic-v2", dto);
     }
 	
 	
